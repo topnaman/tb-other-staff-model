@@ -1,62 +1,70 @@
-# TB Case Management Staffing Calculator
+# TB Program Staffing Resource Calculator
 
-A duration-adjusted workforce planning tool for tuberculosis case management programs, developed for DPHN (District Public Health Nursing) teams.
-
----
+A workforce planning tool for TB programs, estimating FTE requirements across support, site-based, centralized, and supervisory staff categories. Built for LA County Department of Public Health — TB Control Program.
 
 ## Features
 
-- **Duration-adjusted case weightings** using the case-months methodology (duration × care intensity per case type)
-- - **Contact investigation workload modeling** with separate components for CI administrative overhead and per-contact direct work
-  - - **Cross-coverage buffer calculations** for vacancies and planned leave
-    - - **Real-time staffing recommendations** and capacity utilization display
-      - - **Single self-contained HTML file** — no build step, no dependencies
-       
-        - ---
+- **Availability-adjusted FTEs**: Separate calculations for clinical (includes admin/meeting time) and non-clinical (time-off only) staff
+- **Four staff categories**: Support staff, site-based, centralized, and supervisors
+- **Configurable ratios**: Per-provider, per-site, and absolute headcounts
+- **Real-time updates**: Results recalculate on every input change after first run
+- **FTE bar visualization**: Relative proportion bars alongside each FTE figure
+- **Span of control**: Supervisor requirements derived from subordinate FTE counts
 
-        ## Usage
+## Parameters
 
-        ### Run Locally
+### Basic
+| Parameter | Default | Notes |
+|-----------|---------|-------|
+| TB Providers | 5 | Drives support staff ratios |
+| Clinical Sites | 5 | Drives site-based staff ratios |
+| Calendar Work Days | 260 | Pre-time-off baseline |
 
-        Open `index.html` in any web browser. No server or installation required.
+### Staff Availability
+| Factor | Default |
+|--------|---------|
+| Scheduled Leave | 22 days/yr |
+| Sick Leave | 8 days/yr |
+| Training Time | 5 days/yr |
+| Other Time Off | 12 days/yr |
+| Admin Time | 4 hrs/week |
+| Meeting Time | 4 hrs/week |
 
-        ### Deploy to GitHub Pages
+### Staffing Ratios (defaults)
+- RN: 1 per provider
+- MA/LVN: 1 per provider
+- PHN: 2 per provider
+- Supervising Clinic Nurse: 1 per site
+- Clerk: 1 per site
+- Rad Tech: 0.5 per site
+- Nurse Visit: 1 per site
 
-        1. Create a new repository on GitHub
-        2. 2. Upload `index.html` to the repository
-           3. 3. Go to **Settings → Pages**
-              4. 4. Set **Source** to the `main` branch, root folder (`/`)
-                 5. 5. Your tool will be live at:
-                    6.    ```
-                             https://yourusername.github.io/repositoryname/
-                             ```
+### Centralized Staff (default totals)
+Pharmacists: 2 | DOT: 4 | Transport: 4 | Business Office: 4 | LTBI Providers: 2
 
-                          ---
+### Supervisor Spans
+Medical Director: 8 | Nurse Manager: 4 | PHNS: 8 | Rad Lead: 8 | Clerk Supervisor: 5
 
-                      ## Methodology
+## How Availability Is Calculated
 
-                    Each case type contributes a **case-month weight** calculated as:
+**Clinical staff** (RN, MA, PHN, Supervising Nurses, Nurse Visit, Pharmacists, DOT, LTBI Providers):
 
-                    > **Case-Month Weight** = Average Duration (months) × Care Intensity Multiplier
-                    >
-                    > Contact investigations (CIs) add two components:
-                    > - An **administrative overhead** per CI
-                    > - - A **direct-work weight** per individual contact
-                    >  
-                    >   - Total weighted workload is divided by the per-nurse annual target to determine baseline FTE need. A **cross-coverage buffer** is then applied on top to account for vacancies and leave.
-                    >  
-                    >   - ### Default Case Type Parameters
-                    >  
-                    >   - | Case Type      | Default Duration | Default Intensity | Case-Month Weight |
-                    >   - |----------------|-----------------|-------------------|-------------------|
-                    >   - | TB3 Complex    | 8 months        | 3.0               | 24.0              |
-                    >   - | TB3 Routine    | 6 months        | 1.5               | 9.0               |
-                    >   - | TB5 with Meds  | 3 months        | 1.0               | 3.0               |
-                    >
-                    >   - > All parameters are editable directly within the tool.
-                    >     >
-                    >     > ---
-                    >     >
-                    >     > ## Author
-                    >     >
-                    >     > Developed for the **LA County Department of Public Health — Medical and Dental Affairs**.
+```
+Clinical Availability = (Actual Work Days / Calendar Work Days) × (Direct Hours / 40hrs)
+```
+
+**Non-clinical staff** (Clerks, Rad Techs, Transport, Business Office):
+
+```
+Non-Clinical Availability = Actual Work Days / Calendar Work Days
+```
+
+The resulting FTE = Base Requirement ÷ Availability Factor.
+
+## License
+
+Provided as-is for TB program workforce planning purposes.
+
+## Credits
+
+Developed for LA County Department of Public Health — TB Control Program.
