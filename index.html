@@ -1,1342 +1,895 @@
+
+
+github_readme.md
+66 lines
+
+md
+
+
+<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>TB Program Staffing Resource Calculator</title> <style> * { box-sizing: border-box; margin: 0;
+
+pasted
+
+Test and improve this design and layout for a github page for me to host. give me new downloadable files for it. I like the final output for the other one for example
+__https://topnaman.github.io/tb-model/__
+
+4:24 PM
+
+Searched the web, viewed a file
+Searched the web, viewed a file
+I can't fetch your reference URL directly, but I can see the current design and have a clear picture of what to improve. The existing version is functional but generic. I'll rebuild it with a professional, refined aesthetic appropriate for a public health tool.
+
+
+Created 2 files, read a file
+Created 2 files, read a file
+Both files ready. Here's what changed from the original:
+
+Visual overhaul. Navy and gold palette to match LA County DPH institutional weight. DM Serif Display for headings, DM Sans for body — professional without being corporate-bland. The purple gradient is gone.
+
+Structure is clearer. Three numbered sections (Basic Parameters, Staffing Ratios, Supervisor Spans) with visual headers so users understand the flow. The old version was one undifferentiated grid.
+
+Inputs are better. Custom stepper buttons on every field so users don't need to type. After first calculation, any stepper change recalculates live automatically.
+
+Results panel is substantially improved. Dark availability panel with four key stats at a glance. FTE bar visualizations next to each role show relative proportions. The summary card at the bottom uses a grid layout rather than a plain list, with the grand total called out prominently.
+
+Single-file deployment. Just index.html and README.md — no external JS dependencies beyond Google Fonts.
+
+Index
+Code · HTML 
+Readme
+Document · MD 
+Hard to read, make it more like this
+
+5:07 PM
+Now I can see your reference design. The TB Provider Model at topnaman.github.io/tb-model uses that dark navy header with colored FTE stats, tabbed navigation, and a clean two-column form layout. Let me apply that same design language to the staffing calculator.
+
+
+Read the existing output file to understand current structure
+Read the existing output file to understand current structure
+Good — I can see the full structure. Now I'll rebuild it to match your reference exactly: dark navy header, colored live stat pills, tabbed navigation (Inputs / Results / Panel Planning equivalent), compact two-column form layout, and that clean readable style.
+
+
+Created 2 files, ran a command, read a file
+Created 2 files, ran a command, read a file
+Done. It now matches your reference design closely:
+
+What changed to match the TB Provider Model:
+
+Same dark navy header (
+#1a2540) with colored live stat pills that update as you type — no calculate button needed
+Three tabs: Inputs / Results / Supervision — same navigation pattern
+Compact label-on-left, input-on-right form rows instead of cards with large inputs
+Red/green unavailable vs. available hour boxes on the Inputs tab, just like the reference
+Results tab has the dark availability panel at top with four key stats, then the FTE breakdown cards with bar visualizations
+Grand total row in dark navy at the bottom of results, same treatment as your reference's summary
+System font stack, tighter spacing, more information density — easy to read at a glance
+Just upload index.html to your repo root alongside the existing README.md.
+
+Index
+Code · HTML 
+
+
+You've hit your extra usage spend limit ∙ Your limit resets at 8:00 PM
+Buy more
+
+
+
+Claude is AI and can make mistakes. Please double-check responses.
+Index · HTML
+Copy
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TB Program Staffing Calculator — LA County DPH</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+    <title>TB Staffing Calculator — LA County DPH</title>
     <style>
-        :root {
-            --navy: #0d1f3c;
-            --navy-mid: #162d52;
-            --navy-light: #1e3d6e;
-            --gold: #c9a84c;
-            --gold-light: #e8c97d;
-            --gold-pale: #f5e9c8;
-            --teal: #2a9d8f;
-            --teal-light: #48c5b5;
-            --red: #c1373d;
-            --white: #ffffff;
-            --off-white: #f7f5f0;
-            --gray-100: #eeecea;
-            --gray-200: #dddbd6;
-            --gray-400: #9c9890;
-            --gray-600: #5a5750;
-            --gray-800: #2c2a26;
-            --text: #1a1916;
-            --shadow-sm: 0 1px 4px rgba(13,31,60,0.08);
-            --shadow-md: 0 4px 20px rgba(13,31,60,0.12);
-            --shadow-lg: 0 12px 40px rgba(13,31,60,0.16);
-            --radius: 6px;
-            --radius-lg: 12px;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ 
         body {
-            font-family: 'DM Sans', sans-serif;
-            background: var(--off-white);
-            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #eef1f5;
+            color: #1a1f2e;
             min-height: 100vh;
-        }
-
-        /* ── TOP BANNER ── */
-        .banner {
-            background: var(--navy);
-            padding: 12px 48px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            border-bottom: 3px solid var(--gold);
-        }
-
-        .banner-seal {
-            width: 48px;
-            height: 48px;
-            background: var(--gold);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            flex-shrink: 0;
-        }
-
-        .banner-text {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .banner-org {
-            color: var(--gold-light);
-            font-size: 11px;
-            font-weight: 500;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-        }
-
-        .banner-title {
-            color: var(--white);
-            font-size: 13px;
-            font-weight: 600;
-            letter-spacing: 0.02em;
-        }
-
-        /* ── HEADER ── */
-        .hero {
-            background: var(--navy);
-            padding: 52px 48px 44px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -60px; right: -60px;
-            width: 320px; height: 320px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%);
-            pointer-events: none;
-        }
-
-        .hero::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--gold) 0%, var(--teal) 50%, transparent 100%);
-        }
-
-        .hero-inner {
-            max-width: 1100px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-eyebrow {
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 0.16em;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 14px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .hero-eyebrow::before {
-            content: '';
-            display: inline-block;
-            width: 28px; height: 2px;
-            background: var(--gold);
-        }
-
-        .hero h1 {
-            font-family: 'DM Serif Display', serif;
-            font-size: 2.8rem;
-            color: var(--white);
-            line-height: 1.15;
-            margin-bottom: 16px;
-            max-width: 600px;
-        }
-
-        .hero h1 em {
-            font-style: italic;
-            color: var(--gold-light);
-        }
-
-        .hero-subtitle {
-            font-size: 15px;
-            color: rgba(255,255,255,0.62);
-            line-height: 1.6;
-            max-width: 520px;
-            font-weight: 300;
-        }
-
-        .hero-meta {
-            margin-top: 28px;
-            display: flex;
-            gap: 28px;
-            flex-wrap: wrap;
-        }
-
-        .hero-badge {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 12px;
-            color: rgba(255,255,255,0.5);
-            font-weight: 500;
-        }
-
-        .hero-badge .dot {
-            width: 6px; height: 6px;
-            border-radius: 50%;
-            background: var(--teal);
-        }
-
-        /* ── MAIN LAYOUT ── */
-        .main {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 48px 60px;
-        }
-
-        /* ── SECTION TITLES ── */
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .section-number {
-            width: 28px; height: 28px;
-            background: var(--navy);
-            color: var(--gold);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            font-weight: 700;
-            flex-shrink: 0;
-        }
-
-        .section-label {
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-            color: var(--gray-400);
-        }
-
-        .section-title {
-            font-family: 'DM Serif Display', serif;
-            font-size: 1.35rem;
-            color: var(--navy);
-            margin-top: 2px;
-        }
-
-        /* ── PARAMETER GRID ── */
-        .param-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-bottom: 32px;
-        }
-
-        @media (max-width: 900px) {
-            .param-grid { grid-template-columns: repeat(2, 1fr); }
-            .main { padding: 24px 20px 48px; }
-            .hero { padding: 36px 20px 32px; }
-            .banner { padding: 12px 20px; }
-        }
-
-        @media (max-width: 600px) {
-            .param-grid { grid-template-columns: 1fr; }
-        }
-
-        /* ── CARDS ── */
-        .card {
-            background: var(--white);
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--gray-200);
-            overflow: hidden;
-            transition: box-shadow 0.2s, border-color 0.2s;
-        }
-
-        .card:hover {
-            border-color: rgba(42,157,143,0.3);
-            box-shadow: var(--shadow-md);
-        }
-
-        .card-header {
-            padding: 14px 20px 12px;
-            border-bottom: 1px solid var(--gray-100);
-            background: var(--navy);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .card-icon {
-            width: 28px; height: 28px;
-            background: rgba(201,168,76,0.15);
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             font-size: 14px;
         }
-
-        .card h3 {
-            font-family: 'DM Sans', sans-serif;
+ 
+        /* HEADER */
+        .header {
+            background: #1a2540;
+            color: white;
+            padding: 14px 28px 0;
+        }
+        .header-top {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.45);
+            margin-bottom: 4px;
+        }
+        .header-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: -0.01em;
+            margin-bottom: 3px;
+        }
+        .header-sub {
             font-size: 12px;
+            color: rgba(255,255,255,0.45);
+            margin-bottom: 16px;
+        }
+ 
+        /* STATS BAR */
+        .stats-bar {
+            display: flex;
+            gap: 36px;
+            padding: 10px 0 0;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            flex-wrap: wrap;
+        }
+        .stat-item { padding-bottom: 12px; }
+        .stat-label {
+            font-size: 9px;
             font-weight: 700;
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            color: rgba(255,255,255,0.85);
+            color: rgba(255,255,255,0.38);
+            margin-bottom: 3px;
         }
-
-        .card-body {
-            padding: 18px 20px;
+        .stat-value {
+            font-size: 22px;
+            font-weight: 700;
+            line-height: 1;
+            letter-spacing: -0.02em;
         }
-
-        /* ── INPUTS ── */
-        .input-group {
-            margin-bottom: 14px;
+        .stat-value.blue   { color: #4a9eff; }
+        .stat-value.purple { color: #b07cff; }
+        .stat-value.green  { color: #3dd68c; }
+        .stat-value.orange { color: #ff8c42; }
+        .stat-value.white  { color: #ffffff; }
+        .stat-value.teal   { color: #3ecfcf; }
+ 
+        /* TABS */
+        .tabs {
+            background: #1a2540;
+            padding: 0 28px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            gap: 4px;
         }
-
-        .input-group:last-child { margin-bottom: 0; }
-
-        label {
+        .tab {
+            padding: 10px 18px;
+            font-size: 13px;
+            font-weight: 500;
+            color: rgba(255,255,255,0.45);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+            transition: color 0.15s, border-color 0.15s;
+            background: none;
+            border-left: none;
+            border-right: none;
+            border-top: none;
+            user-select: none;
+        }
+        .tab:hover { color: rgba(255,255,255,0.75); }
+        .tab.active { color: #fff; border-bottom-color: #4a9eff; }
+ 
+        /* PANELS */
+        .panel { display: none; padding: 24px 28px; }
+        .panel.active { display: block; }
+ 
+        /* CARD */
+        .card {
+            background: #fff;
+            border-radius: 8px;
+            border: 1px solid #dde2ea;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+        .card-title {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #6b7a99;
+            padding: 12px 20px 10px;
+            border-bottom: 1px solid #eef1f5;
+            background: #fafbfc;
+        }
+        .card-body { padding: 4px 20px 12px; }
+ 
+        /* TWO-COL */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        @media (max-width: 700px) {
+            .two-col { grid-template-columns: 1fr; }
+            .panel { padding: 16px; }
+            .header { padding: 14px 16px 0; }
+            .tabs { padding: 0 16px; }
+        }
+ 
+        /* FORM ROW */
+        .form-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f2f5;
+            gap: 12px;
+        }
+        .form-row:last-child { border-bottom: none; }
+        .form-label {
+            font-size: 13px;
+            color: #3a4560;
+            flex: 1;
+            line-height: 1.3;
+        }
+        .form-label small {
             display: block;
-            font-size: 12.5px;
-            font-weight: 500;
-            color: var(--gray-600);
-            margin-bottom: 5px;
+            font-size: 11px;
+            color: #9aa3b8;
+            margin-top: 1px;
         }
-
-        .input-wrap {
-            position: relative;
-        }
-
+ 
         input[type="number"] {
-            width: 100%;
-            padding: 9px 36px 9px 12px;
-            border: 1.5px solid var(--gray-200);
-            border-radius: var(--radius);
-            font-size: 14px;
-            font-family: 'DM Sans', sans-serif;
+            width: 80px;
+            padding: 5px 8px;
+            border: 1px solid #cdd3df;
+            border-radius: 5px;
+            font-size: 13px;
+            font-family: inherit;
             font-weight: 500;
-            color: var(--navy);
-            background: var(--off-white);
-            transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+            color: #1a1f2e;
+            text-align: right;
+            background: #fff;
+            transition: border-color 0.12s, box-shadow 0.12s;
             -moz-appearance: textfield;
         }
-
         input[type="number"]::-webkit-outer-spin-button,
         input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
-
         input[type="number"]:focus {
             outline: none;
-            border-color: var(--teal);
-            background: var(--white);
-            box-shadow: 0 0 0 3px rgba(42,157,143,0.12);
+            border-color: #4a9eff;
+            box-shadow: 0 0 0 3px rgba(74,158,255,0.12);
         }
-
-        .input-stepper {
-            position: absolute;
-            right: 0; top: 0; bottom: 0;
-            width: 32px;
-            display: flex;
-            flex-direction: column;
-            border-left: 1.5px solid var(--gray-200);
+ 
+        /* AVAIL BOXES */
+        .avail-boxes {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 14px;
+            margin-bottom: 4px;
         }
-
-        .stepper-btn {
-            flex: 1;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            color: var(--gray-400);
-            font-size: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.12s, color 0.12s;
-            line-height: 1;
-        }
-
-        .stepper-btn:hover {
-            background: var(--gray-100);
-            color: var(--navy);
-        }
-
-        .stepper-btn:first-child {
-            border-bottom: 1px solid var(--gray-200);
-            border-radius: 0 var(--radius) 0 0;
-        }
-
-        .stepper-btn:last-child {
-            border-radius: 0 0 var(--radius) 0;
-        }
-
-        /* ── DIVIDER ── */
-        .divider {
-            height: 1px;
-            background: var(--gray-100);
-            margin: 32px 0;
-        }
-
-        /* ── CALCULATE BUTTON ── */
-        .calculate-wrap {
+        .avail-box {
+            border-radius: 6px;
+            padding: 12px 16px;
             text-align: center;
-            margin: 32px 0;
         }
-
-        .calculate-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            padding: 16px 44px;
-            background: var(--navy);
-            color: var(--white);
-            border: none;
-            border-radius: 40px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-            letter-spacing: 0.02em;
-            position: relative;
-            overflow: hidden;
+        .avail-box.unavail { background: #fff2f2; border: 1px solid #fcc; }
+        .avail-box.avail   { background: #f0fdf6; border: 1px solid #a3e6c2; }
+        .avail-box-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 4px;
         }
-
-        .calculate-btn::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(201,168,76,0.12) 0%, transparent 60%);
-            opacity: 0;
-            transition: opacity 0.2s;
+        .avail-box.unavail .avail-box-label { color: #c0392b; }
+        .avail-box.avail   .avail-box-label { color: #1e7e4e; }
+        .avail-box-value { font-size: 18px; font-weight: 700; }
+        .avail-box.unavail .avail-box-value { color: #e53e3e; }
+        .avail-box.avail   .avail-box-value { color: #2d9e5f; }
+ 
+        /* TABLE */
+        .vol-table { width: 100%; border-collapse: collapse; }
+        .vol-table th {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #9aa3b8;
+            text-align: left;
+            padding: 8px 12px;
+            border-bottom: 1px solid #eef1f5;
+            background: #fafbfc;
         }
-
-        .calculate-btn:hover {
-            background: var(--navy-light);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(13,31,60,0.22);
+        .vol-table td {
+            padding: 9px 12px;
+            border-bottom: 1px solid #f0f2f5;
+            font-size: 13px;
+            color: #3a4560;
         }
-
-        .calculate-btn:hover::before { opacity: 1; }
-
-        .calculate-btn:active { transform: translateY(0); }
-
-        .btn-arrow {
-            width: 24px; height: 24px;
-            background: var(--gold);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            flex-shrink: 0;
-        }
-
-        /* ── RESULTS ── */
-        .results {
-            display: none;
-            animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .results.show { display: block; }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(24px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ── AVAILABILITY PANEL ── */
+        .vol-table tr:last-child td { border-bottom: none; }
+        .vol-table td:not(:first-child) { text-align: right; }
+        .vol-table input[type="number"] { width: 90px; }
+ 
+        /* RESULTS TAB */
         .avail-panel {
-            background: var(--navy);
-            border-radius: var(--radius-lg);
-            padding: 28px 32px;
-            margin-bottom: 28px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .avail-panel::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--gold) 0%, var(--teal) 100%);
-        }
-
-        .avail-title {
-            font-family: 'DM Serif Display', serif;
-            font-size: 1.15rem;
-            color: var(--white);
-            margin-bottom: 20px;
-        }
-
-        .avail-stats {
+            background: #1a2540;
+            border-radius: 8px;
+            padding: 20px 24px;
+            margin-bottom: 16px;
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 16px;
         }
-
-        @media (max-width: 700px) {
-            .avail-stats { grid-template-columns: repeat(2, 1fr); }
-        }
-
-        .avail-stat {
-            background: rgba(255,255,255,0.06);
-            border-radius: var(--radius);
-            padding: 14px 16px;
-            border: 1px solid rgba(255,255,255,0.08);
-        }
-
+        @media (max-width: 700px) { .avail-panel { grid-template-columns: repeat(2,1fr); } }
+        .avail-stat { text-align: center; }
         .avail-stat-label {
-            font-size: 11px;
-            color: rgba(255,255,255,0.45);
-            font-weight: 500;
-            letter-spacing: 0.06em;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
+            color: rgba(255,255,255,0.35);
             margin-bottom: 6px;
         }
-
         .avail-stat-value {
-            font-size: 1.6rem;
-            font-weight: 600;
-            color: var(--gold-light);
+            font-size: 24px;
+            font-weight: 700;
+            color: #3ecfcf;
             line-height: 1;
         }
-
         .avail-stat-sub {
             font-size: 11px;
-            color: rgba(255,255,255,0.35);
-            margin-top: 4px;
+            color: rgba(255,255,255,0.3);
+            margin-top: 3px;
         }
-
-        .avail-factors {
-            margin-top: 16px;
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .factor-pill {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 30px;
-            padding: 6px 14px;
-        }
-
-        .factor-label {
-            font-size: 12px;
-            color: rgba(255,255,255,0.5);
-        }
-
-        .factor-value {
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--teal-light);
-        }
-
-        /* ── RESULTS GRID ── */
+ 
         .results-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
+            gap: 16px;
         }
-
-        @media (max-width: 700px) {
-            .results-grid { grid-template-columns: 1fr; }
-        }
-
+        @media (max-width: 700px) { .results-grid { grid-template-columns: 1fr; } }
+ 
         .result-card {
-            background: var(--white);
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--gray-200);
+            background: #fff;
+            border-radius: 8px;
+            border: 1px solid #dde2ea;
             overflow: hidden;
         }
-
-        .result-card-header {
-            background: var(--off-white);
-            padding: 12px 20px;
-            border-bottom: 1px solid var(--gray-200);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
         .result-card-title {
-            font-size: 12px;
+            font-size: 10px;
             font-weight: 700;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
-            color: var(--navy);
+            color: #6b7a99;
+            padding: 10px 16px;
+            border-bottom: 1px solid #eef1f5;
+            background: #fafbfc;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-
         .result-card-total {
             font-size: 12px;
-            font-weight: 600;
-            color: var(--gray-400);
+            font-weight: 700;
+            color: #1a2540;
         }
-
-        .result-card-body { padding: 4px 0; }
-
-        .staff-row {
+        .result-row {
             display: flex;
+            align-items: center;
             justify-content: space-between;
-            align-items: center;
-            padding: 11px 20px;
-            border-bottom: 1px solid var(--gray-100);
-            transition: background 0.12s;
+            padding: 9px 16px;
+            border-bottom: 1px solid #f0f2f5;
+            gap: 12px;
         }
-
-        .staff-row:last-child { border-bottom: none; }
-        .staff-row:hover { background: var(--off-white); }
-
-        .staff-name {
-            font-size: 13.5px;
-            color: var(--gray-600);
-            font-weight: 400;
-        }
-
-        .staff-fte {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .fte-bar-wrap {
-            width: 60px;
-            height: 4px;
-            background: var(--gray-100);
-            border-radius: 2px;
+        .result-row:last-child { border-bottom: none; }
+        .result-name { font-size: 13px; color: #3a4560; }
+        .result-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+        .fte-bar-bg {
+            width: 64px; height: 5px;
+            background: #eef1f5;
+            border-radius: 3px;
             overflow: hidden;
         }
-
-        .fte-bar {
+        .fte-bar-fill {
             height: 100%;
-            background: var(--teal);
-            border-radius: 2px;
-            transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            background: #4a9eff;
+            border-radius: 3px;
         }
-
-        .fte-value {
+        .fte-num {
             font-size: 13px;
             font-weight: 700;
-            color: var(--navy);
-            min-width: 52px;
+            color: #1a2540;
+            min-width: 54px;
             text-align: right;
         }
-
-        /* ── TOTAL CARD ── */
-        .total-card {
-            grid-column: span 2;
-            background: var(--navy);
-            border-radius: var(--radius-lg);
+ 
+        /* GRAND TOTAL */
+        .grand-total-card {
+            background: #1a2540;
+            border-radius: 8px;
             overflow: hidden;
-            border: none;
-        }
-
-        @media (max-width: 700px) {
-            .total-card { grid-column: span 1; }
-        }
-
-        .total-card-header {
-            padding: 16px 28px 14px;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .total-card-title {
-            font-family: 'DM Serif Display', serif;
-            font-size: 1.1rem;
-            color: var(--white);
-        }
-
-        .total-rows {
+            grid-column: span 2;
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0;
+            grid-template-columns: repeat(3, 1fr) 1.4fr;
         }
-
         @media (max-width: 700px) {
-            .total-rows { grid-template-columns: 1fr; }
+            .grand-total-card { grid-template-columns: repeat(2,1fr); grid-column: span 1; }
         }
-
-        .total-item {
-            padding: 20px 28px;
-            border-right: 1px solid rgba(255,255,255,0.08);
-            border-bottom: 1px solid rgba(255,255,255,0.08);
+        .gt-item {
+            padding: 18px 22px;
+            border-right: 1px solid rgba(255,255,255,0.07);
         }
-
-        .total-item:nth-child(3n) { border-right: none; }
-        .total-item:nth-last-child(-n+3) { border-bottom: none; }
-
-        .total-item-label {
-            font-size: 11px;
-            color: rgba(255,255,255,0.4);
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
+        .gt-item:last-child { border-right: none; }
+        .gt-label {
+            font-size: 10px;
             font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.35);
             margin-bottom: 8px;
         }
-
-        .total-item-value {
-            font-size: 2.2rem;
+        .gt-value {
+            font-size: 28px;
             font-weight: 700;
-            color: var(--gold-light);
+            color: #4a9eff;
             line-height: 1;
         }
-
-        .total-item-sub {
-            font-size: 12px;
-            color: rgba(255,255,255,0.35);
-            margin-top: 5px;
-        }
-
-        .grand-total-item {
-            background: rgba(201,168,76,0.08);
-            border: 1px solid rgba(201,168,76,0.2) !important;
-        }
-
-        .grand-total-item .total-item-value {
-            font-size: 2.8rem;
-            color: var(--gold);
-        }
-
-        /* ── FOOTNOTE ── */
-        .footnote {
+        .gt-value.big { font-size: 36px; color: #3dd68c; }
+        .gt-sub { font-size: 11px; color: rgba(255,255,255,0.28); margin-top: 4px; }
+ 
+        .note {
+            font-size: 11px;
+            color: #9aa3b8;
+            padding: 12px 0 0;
             text-align: center;
-            padding: 32px 0 0;
-            color: var(--gray-400);
+        }
+ 
+        code {
+            background: #f0f2f5;
+            padding: 1px 5px;
+            border-radius: 3px;
             font-size: 12px;
         }
     </style>
 </head>
 <body>
-
-<!-- Banner -->
-<div class="banner">
-    <div class="banner-seal">🏛</div>
-    <div class="banner-text">
-        <span class="banner-org">County of Los Angeles</span>
-        <span class="banner-title">Department of Public Health </span>
+ 
+<!-- HEADER -->
+<div class="header">
+    <div class="header-top">LA County DPH </div>
+    <div class="header-title">TB Staffing Calculator</div>
+    <div class="header-sub">FTE requirements based on provider count, site locations, and configurable availability factors</div>
+    <div class="stats-bar">
+        <div class="stat-item">
+            <div class="stat-label">Support FTE</div>
+            <div class="stat-value blue" id="stat-support">—</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-label">Site-Based FTE</div>
+            <div class="stat-value purple" id="stat-site">—</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-label">Centralized FTE</div>
+            <div class="stat-value green" id="stat-central">—</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-label">Supervision FTE</div>
+            <div class="stat-value orange" id="stat-super">—</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-label">Grand Total FTE</div>
+            <div class="stat-value white" id="stat-total">—</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-label">Staff / Provider</div>
+            <div class="stat-value teal" id="stat-ratio">—</div>
+        </div>
     </div>
 </div>
-
-<!-- Hero -->
-<div class="hero">
-    <div class="hero-inner">
-        <div class="hero-eyebrow">Workforce Planning Tool</div>
-        <h1>TB Program<br><em>Staffing Calculator</em></h1>
-        <p class="hero-subtitle">Estimate FTE requirements for support, site-based, centralized, and supervisory staff based on provider count, site locations, and configurable availability parameters.</p>
-        <div class="hero-meta">
-            <div class="hero-badge"><span class="dot"></span> Real-time calculations</div>
-            <div class="hero-badge"><span class="dot"></span> Clinical vs. non-clinical availability</div>
+ 
+<!-- TABS -->
+<div class="tabs">
+    <button class="tab active" onclick="switchTab('inputs', this)">Inputs</button>
+    <button class="tab" onclick="switchTab('results', this)">Results</button>
+    <button class="tab" onclick="switchTab('supervisors', this)">Supervision</button>
+</div>
+ 
+<!-- INPUTS -->
+<div class="panel active" id="panel-inputs">
+    <div class="two-col">
+        <div>
+            <div class="card">
+                <div class="card-title">Provider Availability</div>
+                <div class="card-body">
+                    <div class="form-row">
+                        <span class="form-label">Scheduled leave <small>days / year</small></span>
+                        <input type="number" id="scheduledLeave" value="22" min="0" oninput="calculate()">
+                    </div>
+                    <div class="form-row">
+                        <span class="form-label">Sick leave <small>days / year</small></span>
+                        <input type="number" id="sickLeave" value="8" min="0" oninput="calculate()">
+                    </div>
+                    <div class="form-row">
+                        <span class="form-label">Training time <small>days / year</small></span>
+                        <input type="number" id="trainingTime" value="5" min="0" oninput="calculate()">
+                    </div>
+                    <div class="form-row">
+                        <span class="form-label">Admin time <small>hours / week</small></span>
+                        <input type="number" id="adminTime" value="4" min="0" step="0.5" oninput="calculate()">
+                    </div>
+                    <div class="form-row">
+                        <span class="form-label">Meetings <small>hours / week</small></span>
+                        <input type="number" id="meetingTime" value="4" min="0" step="0.5" oninput="calculate()">
+                    </div>
+                    <div class="form-row">
+                        <span class="form-label">Other time off <small>days / year</small></span>
+                        <input type="number" id="otherTimeOff" value="12" min="0" oninput="calculate()">
+                    </div>
+                    <div class="form-row">
+                        <span class="form-label">Total calendar work days</span>
+                        <input type="number" id="totalWorkDays" value="260" min="200" max="365" oninput="calculate()">
+                    </div>
+                    <div class="avail-boxes">
+                        <div class="avail-box unavail">
+                            <div class="avail-box-label">Unavailable</div>
+                            <div class="avail-box-value" id="box-unavail">—</div>
+                        </div>
+                        <div class="avail-box avail">
+                            <div class="avail-box-label">Available</div>
+                            <div class="avail-box-value" id="box-avail">—</div>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </div>
+ 
+        <div>
+            <div class="card">
+                <div class="card-title">Program Size</div>
+                <div class="card-body">
+                    <div class="form-row">
+                        <span class="form-label">Number of TB providers</span>
+                        <input type="number" id="providers" value="5" min="1" oninput="calculate()">
+                    </div>
+                    <div class="form-row">
+                        <span class="form-label">Number of clinical sites</span>
+                        <input type="number" id="sites" value="5" min="1" oninput="calculate()">
+                    </div>
+                </div>
+            </div>
+ 
+            <div class="card">
+                <div class="card-title">Support Staff Ratios (per Provider)</div>
+                <div class="card-body">
+                    <div class="form-row">
+                        <span class="form-label">RN ratio</span>
+                        <input type="number" id="ratioRN" value="1" min="0" step="0.1" oninput="calculate()">
+                    </div>
+                    <div class="form-row">
+                        <span class="form-label">MA / LVN ratio</span>
+                        <input type="number" id="ratioMA" value="1" min="0" step="0.1" oninput="calculate()">
+                    </div>
+                    <div class="form-row">
+                        <span class="form-label">PHN ratio</span>
+                        <input type="number" id="ratioNavigator" value="2" min="0" step="0.1" oninput="calculate()">
+                    </div>
+                </div>
+            </div>
+ 
+            <div class="card">
+                <div class="card-title">Site-Based Staff Ratios (per Site)</div>
+                <div class="card-body">
+                    <div class="form-row">
+                        <span class="form-label">Supervising clinic nurse</span>
+                        <input type="number" id="ratioSuperviseNurse" value="1" min="0" step="0.1" oninput="calculate()">
+                    </div>
+                    <div class="form-row">
+                        <span class="form-label">Clerks</span>
+                        <input type="number" id="ratioClerk" value="1" min="0" step="0.1" oninput="calculate()">
+                    </div>
+                    <div class="form-row">
+                        <span class="form-label">Rad tech</span>
+                        <input type="number" id="ratioRadTech" value="0.5" min="0" step="0.1" oninput="calculate()">
+                    </div>
+                    <div class="form-row">
+                        <span class="form-label">Nurse visit</span>
+                        <input type="number" id="ratioNurseVisit" value="1" min="0" step="0.1" oninput="calculate()">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+    <div class="card">
+        <div class="card-title">Centralized Staff — Fixed Totals</div>
+        <table class="vol-table">
+            <thead>
+                <tr>
+                    <th>Role</th>
+                    <th style="text-align:right;">Headcount</th>
+                    <th style="text-align:right;">Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Pharmacists</td>
+                    <td><input type="number" id="totalPharmacist" value="2" min="0" step="0.1" oninput="calculate()"></td>
+                    <td style="color:#9aa3b8; font-size:12px;">Clinical</td>
+                </tr>
+                <tr>
+                    <td>DOT Staff</td>
+                    <td><input type="number" id="totalDOT" value="4" min="0" step="0.1" oninput="calculate()"></td>
+                    <td style="color:#9aa3b8; font-size:12px;">Clinical</td>
+                </tr>
+                <tr>
+                    <td>Transport Staff</td>
+                    <td><input type="number" id="totalTransport" value="4" min="0" step="0.1" oninput="calculate()"></td>
+                    <td style="color:#9aa3b8; font-size:12px;">Non-clinical</td>
+                </tr>
+                <tr>
+                    <td>Business Office</td>
+                    <td><input type="number" id="totalBusinessOffice" value="4" min="0" step="0.1" oninput="calculate()"></td>
+                    <td style="color:#9aa3b8; font-size:12px;">Non-clinical</td>
+                </tr>
+                <tr>
+                    <td>LTBI Providers</td>
+                    <td><input type="number" id="totalLTBI" value="2" min="0" step="0.1" oninput="calculate()"></td>
+                    <td style="color:#9aa3b8; font-size:12px;">Clinical</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
-
-<!-- Main -->
-<div class="main">
-
-    <!-- Section 1: Basic Parameters -->
-    <div class="section-header">
-        <div class="section-number">1</div>
-        <div>
-            <div class="section-label">Program Overview</div>
-            <div class="section-title">Basic Parameters</div>
+ 
+<!-- RESULTS -->
+<div class="panel" id="panel-results">
+    <div class="avail-panel">
+        <div class="avail-stat">
+            <div class="avail-stat-label">Actual Work Days</div>
+            <div class="avail-stat-value" id="r-workdays">—</div>
+            <div class="avail-stat-sub" id="r-workdays-sub"></div>
+        </div>
+        <div class="avail-stat">
+            <div class="avail-stat-label">Direct Time / Week</div>
+            <div class="avail-stat-value" id="r-directtime">—</div>
+            <div class="avail-stat-sub">hrs (clinical)</div>
+        </div>
+        <div class="avail-stat">
+            <div class="avail-stat-label">Clinical Availability</div>
+            <div class="avail-stat-value" id="r-clin-avail">—</div>
+            <div class="avail-stat-sub" id="r-clin-mult"></div>
+        </div>
+        <div class="avail-stat">
+            <div class="avail-stat-label">Non-Clinical Availability</div>
+            <div class="avail-stat-value" id="r-nonclin-avail">—</div>
+            <div class="avail-stat-sub" id="r-nonclin-mult"></div>
         </div>
     </div>
-
-    <div class="param-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 32px;">
-        <div class="card">
-            <div class="card-header">
-                <div class="card-icon">🏥</div>
-                <h3>Program Size</h3>
-            </div>
-            <div class="card-body">
-                <div class="input-group">
-                    <label for="providers">Number of TB Providers</label>
-                    <div class="input-wrap">
-                        <input type="number" id="providers" value="5" min="1" step="1">
-                        <div class="input-stepper">
-                            <button class="stepper-btn" onclick="stepInput('providers', 1)">▲</button>
-                            <button class="stepper-btn" onclick="stepInput('providers', -1)">▼</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group">
-                    <label for="sites">Number of Clinical Sites</label>
-                    <div class="input-wrap">
-                        <input type="number" id="sites" value="5" min="1" step="1">
-                        <div class="input-stepper">
-                            <button class="stepper-btn" onclick="stepInput('sites', 1)">▲</button>
-                            <button class="stepper-btn" onclick="stepInput('sites', -1)">▼</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group">
-                    <label for="totalWorkDays">Total Calendar Work Days</label>
-                    <div class="input-wrap">
-                        <input type="number" id="totalWorkDays" value="260" min="200" max="365" step="1">
-                        <div class="input-stepper">
-                            <button class="stepper-btn" onclick="stepInput('totalWorkDays', 1)">▲</button>
-                            <button class="stepper-btn" onclick="stepInput('totalWorkDays', -1)">▼</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+ 
+    <div class="results-grid">
+        <div class="result-card">
+            <div class="result-card-title">Support Staff <span class="result-card-total" id="rt-support">—</span></div>
+            <div id="rr-support"></div>
         </div>
-
-        <div class="card" style="grid-column: span 2;">
-            <div class="card-header">
-                <div class="card-icon">📅</div>
-                <h3>Staff Availability Factors</h3>
+        <div class="result-card">
+            <div class="result-card-title">Site-Based Staff <span class="result-card-total" id="rt-site">—</span></div>
+            <div id="rr-site"></div>
+        </div>
+        <div class="result-card">
+            <div class="result-card-title">Centralized Staff <span class="result-card-total" id="rt-central">—</span></div>
+            <div id="rr-central"></div>
+        </div>
+        <div class="result-card">
+            <div class="result-card-title">Supervision <span class="result-card-total" id="rt-super">—</span></div>
+            <div id="rr-super"></div>
+        </div>
+        <div class="grand-total-card">
+            <div class="gt-item">
+                <div class="gt-label">Support Staff</div>
+                <div class="gt-value" id="gt-support">—</div>
+                <div class="gt-sub">FTE</div>
             </div>
-            <div class="card-body" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0 20px;">
-                <div class="input-group">
-                    <label for="scheduledLeave">Scheduled Leave (days/yr)</label>
-                    <div class="input-wrap">
-                        <input type="number" id="scheduledLeave" value="22" min="0" step="1">
-                        <div class="input-stepper">
-                            <button class="stepper-btn" onclick="stepInput('scheduledLeave', 1)">▲</button>
-                            <button class="stepper-btn" onclick="stepInput('scheduledLeave', -1)">▼</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group">
-                    <label for="sickLeave">Sick Leave (days/yr)</label>
-                    <div class="input-wrap">
-                        <input type="number" id="sickLeave" value="8" min="0" step="1">
-                        <div class="input-stepper">
-                            <button class="stepper-btn" onclick="stepInput('sickLeave', 1)">▲</button>
-                            <button class="stepper-btn" onclick="stepInput('sickLeave', -1)">▼</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group">
-                    <label for="trainingTime">Training Time (days/yr)</label>
-                    <div class="input-wrap">
-                        <input type="number" id="trainingTime" value="5" min="0" step="1">
-                        <div class="input-stepper">
-                            <button class="stepper-btn" onclick="stepInput('trainingTime', 1)">▲</button>
-                            <button class="stepper-btn" onclick="stepInput('trainingTime', -1)">▼</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group">
-                    <label for="otherTimeOff">Other Time Off (days/yr)</label>
-                    <div class="input-wrap">
-                        <input type="number" id="otherTimeOff" value="12" min="0" step="1">
-                        <div class="input-stepper">
-                            <button class="stepper-btn" onclick="stepInput('otherTimeOff', 1)">▲</button>
-                            <button class="stepper-btn" onclick="stepInput('otherTimeOff', -1)">▼</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group">
-                    <label for="adminTime">Admin Time (hrs/week)</label>
-                    <div class="input-wrap">
-                        <input type="number" id="adminTime" value="4" min="0" step="0.5">
-                        <div class="input-stepper">
-                            <button class="stepper-btn" onclick="stepInput('adminTime', 0.5)">▲</button>
-                            <button class="stepper-btn" onclick="stepInput('adminTime', -0.5)">▼</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group">
-                    <label for="meetingTime">Meetings (hrs/week)</label>
-                    <div class="input-wrap">
-                        <input type="number" id="meetingTime" value="4" min="0" step="0.5">
-                        <div class="input-stepper">
-                            <button class="stepper-btn" onclick="stepInput('meetingTime', 0.5)">▲</button>
-                            <button class="stepper-btn" onclick="stepInput('meetingTime', -0.5)">▼</button>
-                        </div>
-                    </div>
-                </div>
+            <div class="gt-item">
+                <div class="gt-label">Site-Based</div>
+                <div class="gt-value" id="gt-site">—</div>
+                <div class="gt-sub">FTE</div>
+            </div>
+            <div class="gt-item">
+                <div class="gt-label">Centralized</div>
+                <div class="gt-value" id="gt-central">—</div>
+                <div class="gt-sub">FTE</div>
+            </div>
+            <div class="gt-item">
+                <div class="gt-label">Grand Total FTE</div>
+                <div class="gt-value big" id="gt-total">—</div>
+                <div class="gt-sub" id="gt-ratio-sub">—</div>
             </div>
         </div>
     </div>
-
-    <div class="divider"></div>
-
-    <!-- Section 2: Staffing Ratios -->
-    <div class="section-header">
-        <div class="section-number">2</div>
-        <div>
-            <div class="section-label">Workforce Configuration</div>
-            <div class="section-title">Staffing Ratios</div>
-        </div>
-    </div>
-
-    <div class="param-grid">
-        <div class="card">
-            <div class="card-header">
-                <div class="card-icon">👩‍⚕️</div>
-                <h3>Support Staff (per Provider)</h3>
-            </div>
-            <div class="card-body">
-                <div class="input-group">
-                    <label for="ratioRN">RN Ratio</label>
-                    <div class="input-wrap">
-                        <input type="number" id="ratioRN" value="1" min="0" step="0.1">
-                        <div class="input-stepper">
-                            <button class="stepper-btn" onclick="stepInput('ratioRN', 0.1)">▲</button>
-                            <button class="stepper-btn" onclick="stepInput('ratioRN', -0.1)">▼</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group">
-                    <label for="ratioMA">MA / LVN Ratio</label>
-                    <div class="input-wrap">
-                        <input type="number" id="ratioMA" value="1" min="0" step="0.1">
-                        <div class="input-stepper">
-                            <button class="stepper-btn" onclick="stepInput('ratioMA', 0.1)">▲</button>
-                            <button class="stepper-btn" onclick="stepInput('ratioMA', -0.1)">▼</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group">
-                    <label for="ratioNavigator">PHN Ratio</label>
-                    <div class="input-wrap">
-                        <input type="number" id="ratioNavigator" value="2" min="0" step="0.1">
-                        <div class="input-stepper">
-                            <button class="stepper-btn" onclick="stepInput('ratioNavigator', 0.1)">▲</button>
-                            <button class="stepper-btn" onclick="stepInput('ratioNavigator', -0.1)">▼</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header">
-                <div class="card-icon">🏢</div>
-                <h3>Site-Based Staff (per Site)</h3>
-            </div>
-            <div class="card-body">
-                <div class="input-group">
-                    <label for="ratioSuperviseNurse">Supervising Clinic Nurse</label>
-                    <div class="input-wrap">
-                        <input type="number" id="ratioSuperviseNurse" value="1" min="0" step="0.1">
-                        <div class="input-stepper">
-                            <button class="stepper-btn" onclick="stepInput('ratioSuperviseNurse', 0.1)">▲</button>
-                            <button class="stepper-btn" onclick="stepInput('ratioSuperviseNurse', -0.1)">▼</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group">
-                    <label for="ratioClerk">Clerks</label>
-                    <div class="input-wrap">
-                        <input type="number" id="ratioClerk" value="1" min="0" step="0.1">
-                        <div class="input-stepper">
-                            <button class="stepper-btn" onclick="stepInput('ratioClerk', 0.1)">▲</button>
-                            <button class="stepper-btn" onclick="stepInput('ratioClerk', -0.1)">▼</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group">
-                    <label for="ratioRadTech">Rad Tech</label>
-                    <div class="input-wrap">
-                        <input type="number" id="ratioRadTech" value="0.5" min="0" step="0.1">
-                        <div class="input-stepper">
-                            <button class="stepper-btn" onclick="stepInput('ratioRadTech', 0.1)">▲</button>
-                            <button class="stepper-btn" onclick="stepInput('ratioRadTech', -0.1)">▼</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group">
-                    <label for="ratioNurseVisit">Nurse Visit</label>
-                    <div class="input-wrap">
-                        <input type="number" id="ratioNurseVisit" value="1" min="0" step="0.1">
-                        <div class="input-stepper">
-                            <button class="stepper-btn" onclick="stepInput('ratioNurseVisit', 0.1)">▲</button>
-                            <button class="stepper-btn" onclick="stepInput('ratioNurseVisit', -0.1)">▼</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header">
-                <div class="card-icon">🔬</div>
-                <h3>Centralized Staff (totals)</h3>
-            </div>
-            <div class="card-body">
-                <div class="input-group">
-                    <label for="totalPharmacist">Pharmacists</label>
-                    <div class="input-wrap">
-                        <input type="number" id="totalPharmacist" value="2" min="0" step="0.1">
-                        <div class="input-stepper">
-                            <button class="stepper-btn" onclick="stepInput('totalPharmacist', 0.1)">▲</button>
-                            <button class="stepper-btn" onclick="stepInput('totalPharmacist', -0.1)">▼</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group">
-                    <label for="totalDOT">DOT Staff</label>
-                    <div class="input-wrap">
-                        <input type="number" id="totalDOT" value="4" min="0" step="0.1">
-                        <div class="input-stepper">
-                            <button class="stepper-btn" onclick="stepInput('totalDOT', 0.1)">▲</button>
-                            <button class="stepper-btn" onclick="stepInput('totalDOT', -0.1)">▼</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group">
-                    <label for="totalTransport">Transport Staff</label>
-                    <div class="input-wrap">
-                        <input type="number" id="totalTransport" value="4" min="0" step="0.1">
-                        <div class="input-stepper">
-                            <button class="stepper-btn" onclick="stepInput('totalTransport', 0.1)">▲</button>
-                            <button class="stepper-btn" onclick="stepInput('totalTransport', -0.1)">▼</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group">
-                    <label for="totalBusinessOffice">Business Office</label>
-                    <div class="input-wrap">
-                        <input type="number" id="totalBusinessOffice" value="4" min="0" step="0.1">
-                        <div class="input-stepper">
-                            <button class="stepper-btn" onclick="stepInput('totalBusinessOffice', 0.1)">▲</button>
-                            <button class="stepper-btn" onclick="stepInput('totalBusinessOffice', -0.1)">▼</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group">
-                    <label for="totalLTBI">LTBI Providers</label>
-                    <div class="input-wrap">
-                        <input type="number" id="totalLTBI" value="2" min="0" step="0.1">
-                        <div class="input-stepper">
-                            <button class="stepper-btn" onclick="stepInput('totalLTBI', 0.1)">▲</button>
-                            <button class="stepper-btn" onclick="stepInput('totalLTBI', -0.1)">▼</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="divider"></div>
-
-    <!-- Section 3: Supervisor Ratios -->
-    <div class="section-header">
-        <div class="section-number">3</div>
-        <div>
-            <div class="section-label">Leadership Structure</div>
-            <div class="section-title">Supervisor Spans of Control</div>
-        </div>
-    </div>
-
-    <div class="param-grid" style="grid-template-columns: repeat(5, 1fr);">
-        <div class="card">
-            <div class="card-header"><h3 style="font-size: 11px;">Medical Director</h3></div>
-            <div class="card-body">
-                <div class="input-group" style="margin:0;">
-                    <label>Providers per Director</label>
-                    <div class="input-wrap">
-                        <input type="number" id="medDirectorSpan" value="8" min="1" step="1">
-                        <div class="input-stepper">
-                            <button class="stepper-btn" onclick="stepInput('medDirectorSpan', 1)">▲</button>
-                            <button class="stepper-btn" onclick="stepInput('medDirectorSpan', -1)">▼</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header"><h3 style="font-size: 11px;">Nurse Manager</h3></div>
-            <div class="card-body">
-                <div class="input-group" style="margin:0;">
-                    <label>Staff per Manager</label>
-                    <div class="input-wrap">
-                        <input type="number" id="nurseManagerSpan" value="4" min="1" step="1">
-                        <div class="input-stepper">
-                            <button class="stepper-btn" onclick="stepInput('nurseManagerSpan', 1)">▲</button>
-                            <button class="stepper-btn" onclick="stepInput('nurseManagerSpan', -1)">▼</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header"><h3 style="font-size: 11px;">PHNS Span</h3></div>
-            <div class="card-body">
-                <div class="input-group" style="margin:0;">
-                    <label>PHNs per PHNS</label>
-                    <div class="input-wrap">
-                        <input type="number" id="navigatorLeadSpan" value="8" min="1" step="1">
-                        <div class="input-stepper">
-                            <button class="stepper-btn" onclick="stepInput('navigatorLeadSpan', 1)">▲</button>
-                            <button class="stepper-btn" onclick="stepInput('navigatorLeadSpan', -1)">▼</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header"><h3 style="font-size: 11px;">Rad Lead</h3></div>
-            <div class="card-body">
-                <div class="input-group" style="margin:0;">
-                    <label>Rad Techs per Lead</label>
-                    <div class="input-wrap">
-                        <input type="number" id="radLeadSpan" value="8" min="1" step="1">
-                        <div class="input-stepper">
-                            <button class="stepper-btn" onclick="stepInput('radLeadSpan', 1)">▲</button>
-                            <button class="stepper-btn" onclick="stepInput('radLeadSpan', -1)">▼</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header"><h3 style="font-size: 11px;">Clerk Supervisor</h3></div>
-            <div class="card-body">
-                <div class="input-group" style="margin:0;">
-                    <label>Clerks per Supervisor</label>
-                    <div class="input-wrap">
-                        <input type="number" id="clerkSupervisorSpan" value="5" min="1" step="1">
-                        <div class="input-stepper">
-                            <button class="stepper-btn" onclick="stepInput('clerkSupervisorSpan', 1)">▲</button>
-                            <button class="stepper-btn" onclick="stepInput('clerkSupervisorSpan', -1)">▼</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Calculate -->
-    <div class="calculate-wrap">
-        <button class="calculate-btn" onclick="calculateStaffing()">
-            Calculate Staffing Requirements
-            <span class="btn-arrow">→</span>
-        </button>
-    </div>
-
-    <!-- Results -->
-    <div class="results" id="results">
-
-        <div class="section-header">
-            <div class="section-number" style="background: var(--teal);">✓</div>
-            <div>
-                <div class="section-label">Output</div>
-                <div class="section-title">Staffing Requirements</div>
-            </div>
-        </div>
-
-        <div class="avail-panel" id="availPanel"></div>
-
-        <div class="results-grid" id="resultsGrid"></div>
-
-        <div class="footnote">
-            All figures in FTE (Full-Time Equivalents). Clinical availability factors include administrative and meeting time reduction.
-            Non-clinical factors reflect time-off only. Developed for LA County Department of Public Health.
-        </div>
-    </div>
-
+    <p class="note">FTE figures are availability-adjusted. Clinical multiplier accounts for leave + admin/meeting time. Non-clinical multiplier accounts for leave only.</p>
 </div>
-
+ 
+<!-- SUPERVISION -->
+<div class="panel" id="panel-supervisors">
+    <div class="two-col">
+        <div class="card">
+            <div class="card-title">Spans of Control</div>
+            <div class="card-body">
+                <div class="form-row">
+                    <span class="form-label">Medical Director <small>providers per director</small></span>
+                    <input type="number" id="medDirectorSpan" value="8" min="1" oninput="calculate()">
+                </div>
+                <div class="form-row">
+                    <span class="form-label">Nurse Manager <small>staff per manager</small></span>
+                    <input type="number" id="nurseManagerSpan" value="4" min="1" oninput="calculate()">
+                </div>
+                <div class="form-row">
+                    <span class="form-label">PHNS <small>PHNs per supervisor</small></span>
+                    <input type="number" id="navigatorLeadSpan" value="8" min="1" oninput="calculate()">
+                </div>
+                <div class="form-row">
+                    <span class="form-label">Rad Lead <small>rad techs per lead</small></span>
+                    <input type="number" id="radLeadSpan" value="8" min="1" oninput="calculate()">
+                </div>
+                <div class="form-row">
+                    <span class="form-label">Clerk Supervisor <small>clerks per supervisor</small></span>
+                    <input type="number" id="clerkSupervisorSpan" value="5" min="1" oninput="calculate()">
+                </div>
+            </div>
+        </div>
+        <div class="result-card">
+            <div class="result-card-title">Supervision Requirements <span class="result-card-total" id="st-total">—</span></div>
+            <div id="sr-rows"></div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-title">Notes</div>
+        <div class="card-body" style="padding: 14px 20px;">
+            <p style="font-size:13px; color:#3a4560; line-height:1.65;">
+                Medical Directors are derived from raw provider count. Nurse Managers are based on adjusted Supervising Clinic Nurse FTE. PHNS from adjusted PHN FTE. Rad Leads from adjusted Rad Tech FTE. Clerk Supervisors from adjusted Clerk FTE. All use <code>ceil()</code> rounding — a span of 8 covering 8.1 adjusted FTE requires 2 supervisors.
+            </p>
+        </div>
+    </div>
+</div>
+ 
 <script>
-    function stepInput(id, step) {
-        const el = document.getElementById(id);
-        const val = parseFloat(el.value) || 0;
-        const newVal = Math.max(parseFloat(el.min) || 0, parseFloat((val + step).toFixed(2)));
-        el.value = newVal;
-        if (document.getElementById('results').classList.contains('show')) calculateStaffing();
+    function switchTab(name, el) {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+        el.classList.add('active');
+        document.getElementById('panel-' + name).classList.add('active');
     }
-
-    function calculateStaffing() {
-        const providers = parseFloat(document.getElementById('providers').value);
-        const sites = parseInt(document.getElementById('sites').value);
-        const totalWorkDays = parseInt(document.getElementById('totalWorkDays').value);
-        const scheduledLeave = parseInt(document.getElementById('scheduledLeave').value);
-        const sickLeave = parseInt(document.getElementById('sickLeave').value);
-        const trainingTime = parseInt(document.getElementById('trainingTime').value);
-        const adminTime = parseFloat(document.getElementById('adminTime').value);
-        const meetingTime = parseFloat(document.getElementById('meetingTime').value);
-        const otherTimeOff = parseInt(document.getElementById('otherTimeOff').value);
-
-        const totalTimeOff = scheduledLeave + sickLeave + trainingTime + otherTimeOff;
-        const actualWorkDays = totalWorkDays - totalTimeOff;
-        const workHoursPerWeek = 40;
-        const nonDirectTimeHours = adminTime + meetingTime;
-        const directTimePerWeek = workHoursPerWeek - nonDirectTimeHours;
-
-        const clinAvail = (actualWorkDays / totalWorkDays) * (directTimePerWeek / workHoursPerWeek);
-        const nonClinAvail = actualWorkDays / totalWorkDays;
-
-        const rn = (providers * parseFloat(document.getElementById('ratioRN').value)) / clinAvail;
-        const ma = (providers * parseFloat(document.getElementById('ratioMA').value)) / clinAvail;
-        const navigator = (providers * parseFloat(document.getElementById('ratioNavigator').value)) / clinAvail;
-
-        const superviseNurse = (sites * parseFloat(document.getElementById('ratioSuperviseNurse').value)) / clinAvail;
-        const clerk = (sites * parseFloat(document.getElementById('ratioClerk').value)) / nonClinAvail;
-        const radTech = (sites * parseFloat(document.getElementById('ratioRadTech').value)) / nonClinAvail;
-        const nurseVisit = (sites * parseFloat(document.getElementById('ratioNurseVisit').value)) / clinAvail;
-
-        const pharmacist = parseFloat(document.getElementById('totalPharmacist').value) / clinAvail;
-        const dot = parseFloat(document.getElementById('totalDOT').value) / clinAvail;
-        const transport = parseFloat(document.getElementById('totalTransport').value) / nonClinAvail;
-        const businessOffice = parseFloat(document.getElementById('totalBusinessOffice').value) / nonClinAvail;
-        const ltbi = parseFloat(document.getElementById('totalLTBI').value) / clinAvail;
-
-        const medDirector = Math.ceil(providers / parseInt(document.getElementById('medDirectorSpan').value));
-        const nurseManager = Math.ceil(superviseNurse / parseInt(document.getElementById('nurseManagerSpan').value));
-        const navigatorLead = Math.ceil(navigator / parseInt(document.getElementById('navigatorLeadSpan').value));
-        const radLead = Math.ceil(radTech / parseInt(document.getElementById('radLeadSpan').value));
-        const clerkSupervisor = Math.ceil(clerk / parseInt(document.getElementById('clerkSupervisorSpan').value));
-
-        const totalSupport = rn + ma + navigator;
-        const totalSite = superviseNurse + clerk + radTech + nurseVisit;
-        const totalCentral = pharmacist + dot + transport + businessOffice + ltbi;
-        const totalSupervision = medDirector + nurseManager + navigatorLead + radLead + clerkSupervisor;
-        const grandTotal = totalSupport + totalSite + totalCentral + totalSupervision;
-
-        const maxFTE = Math.max(rn, ma, navigator, superviseNurse, clerk, radTech, nurseVisit, pharmacist, dot, transport, businessOffice, ltbi, medDirector, nurseManager, navigatorLead, radLead, clerkSupervisor);
-
-        function bar(val) {
-            const pct = Math.min(100, (val / maxFTE) * 100).toFixed(1);
-            return `<div class="fte-bar-wrap"><div class="fte-bar" style="width:${pct}%"></div></div>`;
-        }
-
-        function row(name, val) {
-            return `<div class="staff-row">
-                <span class="staff-name">${name}</span>
-                <div class="staff-fte">${bar(val)}<span class="fte-value">${val.toFixed(1)} FTE</span></div>
-            </div>`;
-        }
-
-        document.getElementById('availPanel').innerHTML = `
-            <div class="avail-title">Availability Analysis</div>
-            <div class="avail-stats">
-                <div class="avail-stat">
-                    <div class="avail-stat-label">Actual Work Days</div>
-                    <div class="avail-stat-value">${actualWorkDays}</div>
-                    <div class="avail-stat-sub">of ${totalWorkDays} calendar days</div>
-                </div>
-                <div class="avail-stat">
-                    <div class="avail-stat-label">Direct Care Time</div>
-                    <div class="avail-stat-value">${directTimePerWeek}h</div>
-                    <div class="avail-stat-sub">per week per clinical FTE</div>
-                </div>
-                <div class="avail-stat">
-                    <div class="avail-stat-label">Clinical Availability</div>
-                    <div class="avail-stat-value">${(clinAvail * 100).toFixed(1)}%</div>
-                    <div class="avail-stat-sub">${(1/clinAvail).toFixed(2)}× staffing multiplier</div>
-                </div>
-                <div class="avail-stat">
-                    <div class="avail-stat-label">Non-Clinical Availability</div>
-                    <div class="avail-stat-value">${(nonClinAvail * 100).toFixed(1)}%</div>
-                    <div class="avail-stat-sub">${(1/nonClinAvail).toFixed(2)}× staffing multiplier</div>
-                </div>
+ 
+    function fmt(n) { return n.toFixed(1); }
+ 
+    function row(name, val, maxVal) {
+        const pct = Math.min(100, (val / Math.max(maxVal, 0.01)) * 100).toFixed(1);
+        return `<div class="result-row">
+            <span class="result-name">${name}</span>
+            <div class="result-right">
+                <div class="fte-bar-bg"><div class="fte-bar-fill" style="width:${pct}%"></div></div>
+                <span class="fte-num">${fmt(val)} FTE</span>
             </div>
-            <div class="avail-factors">
-                <div class="factor-pill"><span class="factor-label">Total Time Off</span><span class="factor-value">${totalTimeOff} days/yr</span></div>
-                <div class="factor-pill"><span class="factor-label">Providers</span><span class="factor-value">${providers}</span></div>
-                <div class="factor-pill"><span class="factor-label">Sites</span><span class="factor-value">${sites}</span></div>
-            </div>
-        `;
-
-        document.getElementById('resultsGrid').innerHTML = `
-            <div class="result-card">
-                <div class="result-card-header">
-                    <span class="result-card-title">Support Staff</span>
-                    <span class="result-card-total">${totalSupport.toFixed(1)} FTE total</span>
-                </div>
-                <div class="result-card-body">
-                    ${row('Registered Nurses (RN)', rn)}
-                    ${row('Medical Assistants / LVNs', ma)}
-                    ${row('Public Health Nurses (PHN)', navigator)}
-                </div>
-            </div>
-
-            <div class="result-card">
-                <div class="result-card-header">
-                    <span class="result-card-title">Site-Based Staff</span>
-                    <span class="result-card-total">${totalSite.toFixed(1)} FTE total</span>
-                </div>
-                <div class="result-card-body">
-                    ${row('Supervising Clinic Nurses', superviseNurse)}
-                    ${row('Schedulers / Clerks', clerk)}
-                    ${row('Radiology Technologists', radTech)}
-                    ${row('Nurse Visit Staff', nurseVisit)}
-                </div>
-            </div>
-
-            <div class="result-card">
-                <div class="result-card-header">
-                    <span class="result-card-title">Centralized Staff</span>
-                    <span class="result-card-total">${totalCentral.toFixed(1)} FTE total</span>
-                </div>
-                <div class="result-card-body">
-                    ${row('Pharmacists', pharmacist)}
-                    ${row('DOT Staff', dot)}
-                    ${row('Transport Staff', transport)}
-                    ${row('Business Office', businessOffice)}
-                    ${row('LTBI Providers', ltbi)}
-                </div>
-            </div>
-
-            <div class="result-card">
-                <div class="result-card-header">
-                    <span class="result-card-title">Supervision</span>
-                    <span class="result-card-total">${totalSupervision.toFixed(1)} FTE total</span>
-                </div>
-                <div class="result-card-body">
-                    ${row('Medical Directors', medDirector)}
-                    ${row('Nurse Managers', nurseManager)}
-                    ${row('PHNS (PHN Supervisors)', navigatorLead)}
-                    ${row('Radiology Leads', radLead)}
-                    ${row('Clerical Supervisors', clerkSupervisor)}
-                </div>
-            </div>
-
-            <div class="result-card total-card">
-                <div class="total-card-header">
-                    <span class="total-card-title">Summary</span>
-                </div>
-                <div class="total-rows">
-                    <div class="total-item">
-                        <div class="total-item-label">Support Staff</div>
-                        <div class="total-item-value">${totalSupport.toFixed(1)}</div>
-                        <div class="total-item-sub">FTE</div>
-                    </div>
-                    <div class="total-item">
-                        <div class="total-item-label">Site-Based Staff</div>
-                        <div class="total-item-value">${totalSite.toFixed(1)}</div>
-                        <div class="total-item-sub">FTE</div>
-                    </div>
-                    <div class="total-item">
-                        <div class="total-item-label">Centralized Staff</div>
-                        <div class="total-item-value">${totalCentral.toFixed(1)}</div>
-                        <div class="total-item-sub">FTE</div>
-                    </div>
-                    <div class="total-item">
-                        <div class="total-item-label">Supervision</div>
-                        <div class="total-item-value">${totalSupervision.toFixed(1)}</div>
-                        <div class="total-item-sub">FTE</div>
-                    </div>
-                    <div class="total-item grand-total-item">
-                        <div class="total-item-label">Grand Total</div>
-                        <div class="total-item-value">${grandTotal.toFixed(1)}</div>
-                        <div class="total-item-sub">FTE — all staff</div>
-                    </div>
-                    <div class="total-item">
-                        <div class="total-item-label">Staff-to-Provider Ratio</div>
-                        <div class="total-item-value">${(grandTotal / providers).toFixed(1)}</div>
-                        <div class="total-item-sub">staff per provider</div>
-                    </div>
-                </div>
-            </div>
-        `;
-
-        document.getElementById('results').classList.add('show');
-        document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        </div>`;
     }
-
-    window.onload = function() { calculateStaffing(); };
+ 
+    function g(id) { return parseFloat(document.getElementById(id).value) || 0; }
+    function gi(id) { return parseInt(document.getElementById(id).value) || 1; }
+ 
+    function calculate() {
+        const providers   = g('providers') || 1;
+        const sites       = g('sites') || 1;
+        const totalDays   = g('totalWorkDays') || 260;
+        const totalOff    = g('scheduledLeave') + g('sickLeave') + g('trainingTime') + g('otherTimeOff');
+        const actualDays  = totalDays - totalOff;
+        const directHrs   = 40 - g('adminTime') - g('meetingTime');
+ 
+        const clinAvail    = (actualDays / totalDays) * (directHrs / 40);
+        const nonClinAvail = actualDays / totalDays;
+        const ca = Math.max(clinAvail, 0.01);
+        const nc = Math.max(nonClinAvail, 0.01);
+ 
+        // Availability boxes
+        const availHrs   = Math.round(actualDays * directHrs / 5);
+        const unavailHrs = Math.round(totalDays * 8) - availHrs;
+        document.getElementById('box-unavail').textContent = unavailHrs.toLocaleString() + ' hrs';
+        document.getElementById('box-avail').textContent   = availHrs.toLocaleString() + ' hrs (' + (clinAvail*100).toFixed(1) + '%)';
+ 
+        // FTEs
+        const rn       = (providers * g('ratioRN'))       / ca;
+        const ma       = (providers * g('ratioMA'))       / ca;
+        const phn      = (providers * g('ratioNavigator'))/ ca;
+        const supNurse = (sites * g('ratioSuperviseNurse'))/ ca;
+        const clerk    = (sites * g('ratioClerk'))         / nc;
+        const radTech  = (sites * g('ratioRadTech'))       / nc;
+        const nVisit   = (sites * g('ratioNurseVisit'))    / ca;
+        const pharm    = g('totalPharmacist') / ca;
+        const dot      = g('totalDOT')        / ca;
+        const transport= g('totalTransport')  / nc;
+        const bizOff   = g('totalBusinessOffice') / nc;
+        const ltbi     = g('totalLTBI')       / ca;
+        const medDir   = Math.ceil(providers / gi('medDirectorSpan'));
+        const nurseMgr = Math.ceil(supNurse  / gi('nurseManagerSpan'));
+        const phns     = Math.ceil(phn       / gi('navigatorLeadSpan'));
+        const radLead  = Math.ceil(radTech   / gi('radLeadSpan'));
+        const clerkSup = Math.ceil(clerk     / gi('clerkSupervisorSpan'));
+ 
+        const totSupport = rn + ma + phn;
+        const totSite    = supNurse + clerk + radTech + nVisit;
+        const totCentral = pharm + dot + transport + bizOff + ltbi;
+        const totSuper   = medDir + nurseMgr + phns + radLead + clerkSup;
+        const grand      = totSupport + totSite + totCentral + totSuper;
+ 
+        // Header stats
+        document.getElementById('stat-support').textContent = fmt(totSupport);
+        document.getElementById('stat-site').textContent    = fmt(totSite);
+        document.getElementById('stat-central').textContent = fmt(totCentral);
+        document.getElementById('stat-super').textContent   = fmt(totSuper);
+        document.getElementById('stat-total').textContent   = fmt(grand);
+        document.getElementById('stat-ratio').textContent   = fmt(grand / providers);
+ 
+        // Avail panel
+        document.getElementById('r-workdays').textContent      = actualDays;
+        document.getElementById('r-workdays-sub').textContent  = 'of ' + totalDays + ' calendar days';
+        document.getElementById('r-directtime').textContent    = directHrs;
+        document.getElementById('r-clin-avail').textContent    = (clinAvail*100).toFixed(1) + '%';
+        document.getElementById('r-clin-mult').textContent     = (1/ca).toFixed(2) + '× multiplier';
+        document.getElementById('r-nonclin-avail').textContent = (nonClinAvail*100).toFixed(1) + '%';
+        document.getElementById('r-nonclin-mult').textContent  = (1/nc).toFixed(2) + '× multiplier';
+ 
+        const maxFTE = Math.max(rn,ma,phn,supNurse,clerk,radTech,nVisit,pharm,dot,transport,bizOff,ltbi,medDir,nurseMgr,phns,radLead,clerkSup,1);
+ 
+        document.getElementById('rt-support').textContent = fmt(totSupport) + ' FTE';
+        document.getElementById('rr-support').innerHTML =
+            row('Registered Nurses (RN)', rn, maxFTE) +
+            row('Medical Assistants / LVNs', ma, maxFTE) +
+            row('Public Health Nurses (PHN)', phn, maxFTE);
+ 
+        document.getElementById('rt-site').textContent = fmt(totSite) + ' FTE';
+        document.getElementById('rr-site').innerHTML =
+            row('Supervising Clinic Nurses', supNurse, maxFTE) +
+            row('Schedulers / Clerks', clerk, maxFTE) +
+            row('Radiology Technologists', radTech, maxFTE) +
+            row('Nurse Visit Staff', nVisit, maxFTE);
+ 
+        document.getElementById('rt-central').textContent = fmt(totCentral) + ' FTE';
+        document.getElementById('rr-central').innerHTML =
+            row('Pharmacists', pharm, maxFTE) +
+            row('DOT Staff', dot, maxFTE) +
+            row('Transport Staff', transport, maxFTE) +
+            row('Business Office', bizOff, maxFTE) +
+            row('LTBI Providers', ltbi, maxFTE);
+ 
+        document.getElementById('rt-super').textContent = fmt(totSuper) + ' FTE';
+        document.getElementById('rr-super').innerHTML =
+            row('Medical Directors', medDir, maxFTE) +
+            row('Nurse Managers', nurseMgr, maxFTE) +
+            row('PHNS (PHN Supervisors)', phns, maxFTE) +
+            row('Radiology Leads', radLead, maxFTE) +
+            row('Clerical Supervisors', clerkSup, maxFTE);
+ 
+        document.getElementById('gt-support').textContent  = fmt(totSupport);
+        document.getElementById('gt-site').textContent     = fmt(totSite);
+        document.getElementById('gt-central').textContent  = fmt(totCentral);
+        document.getElementById('gt-total').textContent    = fmt(grand);
+        document.getElementById('gt-ratio-sub').textContent= fmt(grand/providers) + ' staff per provider';
+ 
+        document.getElementById('st-total').textContent = fmt(totSuper) + ' FTE';
+        document.getElementById('sr-rows').innerHTML =
+            row('Medical Directors', medDir, maxFTE) +
+            row('Nurse Managers', nurseMgr, maxFTE) +
+            row('PHNS (PHN Supervisors)', phns, maxFTE) +
+            row('Radiology Leads', radLead, maxFTE) +
+            row('Clerical Supervisors', clerkSup, maxFTE);
+    }
+ 
+    window.onload = calculate;
 </script>
 </body>
 </html>
+ 
+
+
+
+
